@@ -1,0 +1,1 @@
+function openMenu(e,t){for(var a,n=document.getElementsByClassName("tabcontent"),l=0;l<n.length;l++)n[l].style.display="none";for(a=document.getElementsByClassName("tablinks"),l=0;l<a.length;l++)a[l].className=a[l].className.replace(" active","");document.getElementById(t).style.display="block",e.currentTarget.className+=" active"}
