@@ -26,9 +26,9 @@
       </div>
       <div id="header" class="header">
         <div id="photomag" class="photomag">
-          <a href="img/ivanenko_big.jpg">
+          <a href="../photo.jpg" width="100%">
             <img
-              src="../img/photo.jpg"
+              src="../photo.jpg"
               width="220"
               title="Магистр ДонНТУ Дручевский Денис Витальевич"
               alt="Магистр ДонНТУ Дручевский Денис Витальевич"
@@ -37,9 +37,19 @@
         </div>
         <div id="headertext">
           <h1 class="hdr">Druchevsky Denis Vitalievich</h1>
-          <h3 class="hdr">Faculty of Intelligent Systems and Programming</h3>
-          <h3 class="hdr">Department of Software Engineering named after L.P. Feldman</h3>
-          <h3 class="hdr">Specialty «Software Engineering»</h3>
+          <h3 class="hdr">
+            <a href="http://fisp.iknt.donntu.ru/"
+              >Faculty of Intelligent Systems and Programming</a
+            >
+          </h3>
+          <h3 class="hdr">
+            <a href="http://pi.donntu.ru/"
+              >Department of Software Engineering named after L.P. Feldman</a
+            >
+          </h3>
+          <h3 class="hdr">
+            Specialization «Software development methods and tools»
+          </h3>
           <h2 class="hdr">
             Software models of deep neural networks in the system of video
             monitoring of people based on images of faces from a video stream
@@ -103,6 +113,13 @@
           without presenting documents and optimizes the performance of related
           services.
         </p>
+        <p>
+          This article discusses one of the most productive technologies face
+          recognition systems based on deep machine learning. The work of the
+          created software tool consists of three main stages: face detection in
+          the video data stream, its normalization and classification. The
+          Python language was used to program the model.<a href="#l1">[1]</a>.
+        </p>
         <a name="p1"></a>
         <h3>1. Relevance of the topic</h3>
         <p>
@@ -114,7 +131,7 @@
           average person can identify a familiar face in a crowd with 97.53%
           accuracy. But this less compared to modern algorithms that have
           achieved 99.8% accuracy. And in the last few years they have reached
-          almost perfection [1].
+          almost perfection<a href="#l2">[2]</a>..
         </p>
         <p>
           There are many ways to recognize a face: the flexible comparison
@@ -141,23 +158,77 @@
         <h2>2. Face detection in video stream</h2>
         <p>
           The purpose of the work is to develop our own face recognition system
-          students.
+          students.Among the open source products are OpenCV. It is a library of
+          computer vision algorithms, processing images and general-purpose
+          numerical algorithms. Can freely used for academic and commercial
+          purposes, distributed under the terms of the BSD license.
         </p>
         <p>
-          Before processing the video stream, it must be presented frame by
-          frame. Then on each frame it is necessary to determine the location of
-          the face. For This is done in one of two ways:
+          To implement the face recognition program, one of the The most
+          effective combination of face recognition algorithms is the algorithm
+          for estimating landmarks (eng. Face Landmark Estimation, FLE) and
+          histograms of directional gradients Gradients, H.O.G.). Describing the
+          general algorithm of the program with Using this combination of
+          algorithms, we can distinguish the following stages:
+        </p>
+        <ol>
+          <li>Search for all faces in a photo.</li>
+          <li>
+            Recognition of every face, even if it is strangely turned, or if the
+            lighting is poor.
+          </li>
+          <li>
+            Identify unique facial features that distinguish one person from
+            others, such as eye size, face shape, and so on.
+          </li>
+          <li>
+            Compare the identified unique features of this person with all
+            people whom the system already knows in order to understand who is
+            depicted on a photo.
+          </li>
+        </ol>
+        <p>
+          The histogram algorithm is used to search for faces in photographs
+          directional gradients. The main idea of the algorithm is the
+          assumption that the appearance and shape of an object in an image area
+          can be described by intensity gradient distribution or direction
+          edges. Their implementation can be done by separating images into
+          small connected areas called cells, and calculation for each cell of
+          the histogram of gradient directions or edge directions for pixels
+          that are inside the cell. Combination of these histograms is called a
+          descriptor. To increase accuracy local histograms are normalized by
+          contrast. With this the goal is to calculate the measure of intensity
+          on a larger fragment of the image, which is called a block and the
+          resulting value is used for normalization. Normalized descriptors have
+          better invariance with respect to illumination.
+        </p>
+        <p>
+          The histogram handle for directional gradients has several advantages
+          over other descriptors. Since it works locally, method maintains the
+          invariance of geometric and photometric transformations, except for
+          the orientation of the object. Similar changes will only appear in
+          large portions of the image. Moreover, how discovered by Dalal and
+          Triggs, rough space partitioning, precise direction calculation and
+          strong local photometric normalization allows you to ignore the
+          movements of pedestrians if they maintain the vertical position of the
+          body. So the descriptor histograms of directional gradients is a good
+          tool finding people in images.
         </p>
         <ul>
           <li>
             use a special algorithm that finds reference points or areas of the
             face, and then selects the entire area of the face;
           </li>
-          <li>apply neural network models trained on a huge volume data[3].</li>
+          <li>
+            apply neural network models trained on a huge volume data<a
+              href="#l4"
+              >[4]</a
+            >. The scheme of the neural network is shown in Figure 1.
+          </li>
         </ul>
         <p>
-          There are quite a lot of similar methods [4], and they can be divided
-          into two categories:
+          There are quite a lot of similar methods <a href="#l5">[5]</a>, and
+          they can be divided into two categories:
         </p>
         <ul>
           <li>
@@ -172,7 +243,7 @@
         <p style="text-align: center">
           <img src="../img/mygif.gif" width="400" alt="" />
         </p>
-        <p style="text-align: center">Diagram of a neural network</p>
+        <p style="text-align: center">Figure. 1. Diagram of a neural network</p>
         <p>
           By the method of face detection by external signs, they try to find
           and identify regularities and properties of the face implicitly,
@@ -184,16 +255,17 @@
           data - VGGFace2. The images it contains (more than 3 million) are
           collected from the Google images database and quite significantly vary
           in position, lighting, etc. Set freely distributed for commercial and
-          research purposes. AT This work uses DlibResNet [5]. This model is a
-          ResNet network with 29 convolutional layers. Basis for The collection
-          of VGGFace2 faces served as training. Network training started with
-          randomly initialized weights and used a structured a loss function
-          that tries to project all identities into non-intersecting circles
-          with a radius of 0.6. After the model was tested with the publicly
-          available LFW face detection test (eng. Labeled Faces in the Wild can
-          be translated as “faces marked in the natural environment). The
-          trained model received an average error 0.993833 with a standard
-          deviation of 0.00272732 which is very a good indicator[6].
+          research purposes. AT This work uses DlibResNet
+          <a href="#l6">[6].</a> This model is a ResNet network with 29
+          convolutional layers. Basis for The collection of VGGFace2 faces
+          served as training. Network training started with randomly initialized
+          weights and used a structured a loss function that tries to project
+          all identities into non-intersecting circles with a radius of 0.6.
+          After the model was tested with the publicly available LFW face
+          detection test (eng. Labeled Faces in the Wild can be translated as
+          “faces marked in the natural environment). The trained model received
+          an average error 0.993833 with a standard deviation of 0.00272732
+          which is very a good indicator<a href="#l7">[7].</a>
         </p>
         <a name="p3"></a>
         <h2>3. Finding anthropometric points of the face</h2>
@@ -201,7 +273,7 @@
           After finding the face, it is necessary to determine in which
           direction it rotated, and bring it to a general view for further
           analysis, because a face turned in different directions is a face of
-          the same human[5].
+          the same human<a href="#l8">[8]</a>.
         </p>
         <p>
           The most common method of bringing a face to a general view is
@@ -217,7 +289,36 @@
           <img src="../img/mask.webp" width="400" alt="" />
         </p>
         <p style="text-align: center">
-          Figure. 1. General view of the location of points
+          Figure. 2. General view of the location of points
+        </p>
+        <p>
+          After defining the points, you need to change the image so that the
+          eyes and mouth were as well centered as possible. For such
+          transformations, affine transformations are used, that is, such
+          transformations in which all lines remain parallel outside depending
+          on the method of transformation (distortion, rotation, scaling).
+        </p>
+        <p>
+          As a result of the transformation, regardless of how the face is
+          turned on the original image, the neural network will receive an input
+          image with the same position of the main parts of the human face.
+        </p>
+        <p>
+          The simplest approach to face recognition is to direct comparison of
+          the unknown face found in step 2, with all the images of people that
+          have already been tagged before. If a will find a previously tagged
+          face that is very similar to recognizable face, it is probably the
+          same person. But this approach has a big problem. Comparison of all
+          previously noted faces with each new uploaded image takes too much
+          time, while faces should be recognized in milliseconds, and not for
+          hours. An efficient way to optimize comparison is transition from
+          comparing the entire image to comparing individual measurements, such
+          as the size of the ears, the distance between the eyes, etc. Further.
+        </p>
+        <p>
+          The choice of parts necessary for measurement can be assigned to the
+          neural net. Deep learning determines which parts of the face need to
+          be measured, better than humans.
         </p>
         <a name="p4"></a>
         <h2>4. Normalization of detected faces</h2>
@@ -226,7 +327,10 @@
           eyes and mouth were as well centered as possible. For such
           transformations, affine transformations are used, that is, such
           transformations in which all lines remain parallel outside depending
-          on the method of transformation (distortion, rotation, scaling).
+          on the method of transformation (distortion, rotation, scaling)<a
+            href="#l9"
+            >[9]</a
+          >..
         </p>
         <p>Facial recognition is most affected by:</p>
         <ul>
@@ -237,13 +341,13 @@
         <p>
           Piecewise affine deformation allows you to normalize changes in
           posture. Deformation is applied to triangular elements defined by
-          models of the improved active appearance described below (Fig. 2)
+          models of the improved active appearance described below (Fig. 3)
         </p>
         <p style="text-align: center">
           <img src="../img/faces.jpg" width="800" alt="" />
         </p>
         <p style="text-align: center">
-          Figure 2. The process of aligning (or "rotating") a face using affine
+          Figure 3. The process of aligning (or "rotating") a face using affine
           deformations
         </p>
         <p>
@@ -257,9 +361,23 @@
           face descriptor extraction using the trained model function. At
           software development, the authors of the article applied the model,
           which retrieves the face descriptor using the previously discovered
-          anthropometric points. But to classify faces, you need a database (DB)
-          containing descriptors of faces that will be compared with a handle to
-          the face found in the frame of the stream.
+          anthropometric points. The last step is to find a person in the
+          database because to classify faces, a database (DB) is needed,
+          containing descriptors of faces that will be compared with the
+          descriptor face detected on the stream frame. To search for an image,
+          train a small reference network using a classification algorithm, for
+          example, the support vector machine.
+        </p>
+        <p>
+          The main idea of the method is to translate the original vectors into
+          higher-dimensional space and the search for a separating the
+          hyperplane with the largest gap in this space. Two parallel
+          hyperplanes are constructed on both sides of the hyperplane,
+          separating classes. The separating hyperplane is the hyperplane which
+          creates the greatest distance to two parallel hyperplanes. The
+          algorithm is based on the assumption that the greater the difference
+          or distance between these parallel hyperplanes, the smaller will be
+          the average classifier error<a href="#l10">[10]</a>.
         </p>
         <p>
           Given a dataset with face descriptors and a face descriptor with video
@@ -273,6 +391,16 @@
           it was decided to lower the indicated threshold to 0.587. At This
           value does not indicate errors in the definition of the face.
         </p>
+        <p>
+          After performing the above steps, the face is highlighted on the frame
+          from a stream that takes two coordinates of the one found in the image
+          faces, as well as defining the thickness and color of the frame in RGB
+          format. Then with using the function, the name is displayed and a mask
+          is applied to the face with anthropometric points. For this, a cycle
+          is used in which the detected points are placed on the image. Finally,
+          the image output to the video stream, and the above steps are repeated
+          to next frame.
+        </p>
         <a name="p6"></a>
         <h2>Conclusion</h2>
         <p>
@@ -281,54 +409,109 @@
           frame by frame and performs actions needed to identify a person in a
           video stream.
         </p>
+        <p>The software meets the following requirements:</p>
+        <ol>
+          <li>full performance;</li>
+          <li>output of all necessary information;</li>
+          <li>
+            support for a graphical interface that broadcasts video stream;
+          </li>
+          <li>
+            selection of the detected face and output of information about the
+            person;
+          </li>
+          <li>
+            the possibility of demonstrating the anthropometric points of the
+            detected faces.
+          </li>
+        </ol>
         <a name="p7"></a>
         <h2>List of sources</h2>
         <ol class="literature">
           <li>
-            Habr [Electronic resource] - Access mode:
-            https://habr.com/ru/company/droider/blog/568764/ -Head. from the
-            screen.
+            <a
+              name="l1"
+              href="http://i.uran.ru/webcab/system/files/bookspdf/vvedenie-v-mashinnoe-obuchenie-s-pomoshchyu-python/vvedenie.pdf"
+            >
+              Muller, A. Introduction to machine learning with Python / A.
+              Müller, S. Guido. - Moscow: Williams, 2017. - 480 p.</a
+            >
           </li>
           <li>
-            Brilyuk D.V., Starovoitov V.V. Recognition of a person by image
-            faces by neural network methods - 2002. - no. 1. - p. 4-11. - URL:
-            http://uiip.bas&#8209;net.by/structure/l_ori/starovoitov/Starovoitov_Publication_section/11_Starovoitov02prep.pdf.
+            <a name="l2" href="https://habr.com/ru/company/droider/blog/568764/"
+              >Habr [Electronic resource] - Access mode:
+              https://habr.com/ru/company/droider/blog/568764/ -Head. With
+              screen.</a
+            >
           </li>
           <li>
-            Grace, J. Data Science. Data science from scratch / J. Gras. — St.
-            Petersburg: BHVPeterburg, 2017. - 336 p.
+            <a
+              name="l3"
+              href="http://uiip.basnet.by/structure/l_ori/starovoitov/Starovoitov_Publication_section/11_Starovoitov02prep.pdf."
+              >Brilyuk D.V., Starovoitov V.V. Recognition of a person by facial
+              imaging using neural network methods - 2002. - no. 1. - p. 4-11. -
+              URL:
+              http://uiip.bas&#8209;net.by/structure/l_ori/starovoitov/Starovoitov_Publication_section/11_Starovoitov02prep.pdf.</a
+            >
           </li>
           <li>
-            Forsythe, D. Computer Vision. Modern approach / D. Forsyth, J. Pons.
-            - Moscow: Williams, 2004. - 928 p.
+            <a
+              name="l4"
+              href="https://www.rulit.me/data/programs/resources/pdf/Data-Science-Nauka-o-dannyh-s-nulya_RuLit_Me_652328.pdf"
+            >
+              Grace, J. Data Science. Data science from scratch / J. Gras. — St.
+              Petersburg: BHVPeterburg, 2017. - 336 p.
+            </a>
           </li>
           <li>
-            Young scientist [Electronic resource] - Access mode:
-            https://moluch.ru/archive/363/81355/ -Head. from the screen.
+            <a
+              name="l5"
+              href="https://nashol.me/20191023114867/komputernoe-zrenie-sovremennii-podhod-forsait-d-a-pons-j-2004.html"
+              >Forsythe, D. Computer Vision. Modern approach / D. Forsyth, J.
+              Pons. - Moscow: Williams, 2004. - 928 p.</a
+            >
           </li>
           <li>
-            Lutz, A. Learning Python / A. Lutz. - St. Petersburg: Symbol-Plus,
-            2011. - 1280 p.
+            <a name="l6" href="https://moluch.ru/archive/363/81355/"
+              >Young scientist [Electronic resource] - Access mode:
+              https://moluch.ru/archive/363/81355/ -Head. from the screen.</a
+            >
           </li>
           <li>
-            Image recognition system from AxxonSoft. [Electronic resource]. –
-            Access mode: HTTPS://WWW.AXXONSOFT.COM/UA/
+            <a
+              name="l7"
+              href="http://uchcom7.botik.ru/L/prog/python/python_01.pdf"
+              >Lutz, A. Learning Python / A. Lutz. - St. Petersburg :
+              Symbol-Plus, 2011. - 1280 p.</a
+            >
           </li>
           <li>
-            Convolutional Neural Network Part 1: Structure, Topology, Activation
-            Functions and Training Set. [Electronic resource]. – Access mode:
-            HTTPS://HABR.COM/POST/348000/
+            <a
+              name="l8"
+              href="https://masters.donntu.ru/2018/fknt/medvedev/index.htm"
+              >Medvedev A.S. The study of the program model of the convolutional
+              neural network when recognizing faces in pictures from a video
+              stream - Access mode:
+              https://masters.donntu.ru/2018/fknt/medvedev/index.htm</a
+            >
           </li>
           <li>
-            Face Recognition using Eigenfaces and Distance Classifiers
-            [Electronic resource] - Access mode:
-            https://onionesquereality.wordpress.com/2009/02/11/face-recognition-using-eigenfaces-and-distance-classifiers-a-tutorial/
-            - Title from the screen.
+            <a name="l9" href="https://habr.com/ru/post/348000/">
+              Convolutional Neural Network, Part 1: Structure, Topology,
+              Functions activations and training set. [Electronic resource]. -
+              Mode access: https://habr.com/ru/post/348000/</a
+            >
           </li>
           <li>
-            Brilyuk D.V., Starovoitov V.V. Recognition of a person by face image
-            by neural network methods - 2002. - no. 1. - p. 4-11. - URL:
-            http://uiip.bas-net.by/structure/l_ori/starovoitov/Starovoitov_Publication_section/11_Starovoitov02prep.pdf.
+            <a
+              name="l10"
+              href="http://uiip.bas-net.by/structure/l_ori/starovoitov/Starovoitov_Publication_section/11_Starovoitov02prep.pdf."
+            >
+              Brilyuk D.V., Starovoitov V.V. Recognition of a person by facial
+              imaging using neural network methods - 2002. - no. 1. - p. 4-11. -
+              URL:
+              http://uiip.bas-net.by/structure/l_ori/starovoitov/Starovoitov_Publication_section/11_Starovoitov02prep.pdf.</a
+            >
           </li>
         </ol>
       </div>

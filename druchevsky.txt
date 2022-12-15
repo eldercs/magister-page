@@ -1,0 +1,14 @@
+ru
+Дручевский Денис Витальевич
+Программные модели глубоких нейронных сетей в системе видеоконтроля за людьми по изображениям лиц из видеопотока
+Программная инженерия
+
+ua
+Дручевський Денис Віталійович
+Програмні моделі глибоких нейронних мереж у системі відеоконтролю за людьми за зображеннями осіб із відеопотоку
+Програмна інженерія
+
+en
+Druchevsky Denis Vitalievich
+Software models of deep neural networks in the system of video monitoring of people based on images of faces from a video stream
+Software Engineering
